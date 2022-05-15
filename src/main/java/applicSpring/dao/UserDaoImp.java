@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -21,7 +22,14 @@ public class UserDaoImp implements UserDao{
     public User show(int id) {
         return (User) entityManager.find(User.class, id);
     }
-
+    public User findByEmail(String email) {
+         Query query =  entityManager.createQuery("SELECT u FROM User u WHERE u.email=:email", User.class);
+         query.setParameter("email", email);
+         User user = (User) query.getSingleResult();
+         return user;
+    }
+    //entityManager.createQuery("SELECT email AS username,password FROM User WHERE email=#{username}", User.class);
+    //  User user = entityManager.find(User.class, email);
     public void save(User user) {
         Integer id = user.getId();
         if (id == null) {

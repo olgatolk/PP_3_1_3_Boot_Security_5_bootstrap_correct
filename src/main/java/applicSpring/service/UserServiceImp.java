@@ -39,4 +39,7 @@ public class UserServiceImp implements UserService{
     public void delete(int id) {
         userDao.delete(id);
     }
+
+    @Override
+    public User findByEmail(String email) { return userDao.findByEmail(email);}
 }

@@ -25,8 +25,8 @@
         <td th:text="${user.id}"></td>
         <td th:text="${user.name}"></td>
         <td th:text="${user.age}"></td>
-        <td><a th:href="@{/edit/{id}(id=${user.getId()})}">Edit</a></td>
-        <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>
+        <td><a th:href="@{/admin/edit/{id}(id=${user.getId()})}">Edit</a></td>
+        <td><a th:href="@{/admin/delete/{id}(id=${user.id})}">Delete</a></td>
 
     </tr>
     </tbody>
@@ -35,7 +35,7 @@
 
 
 
-<p><a href="/new">Create user</a></p>
+<p><a href="/admin/new">Create user</a></p>
 
 </body>
 </html>

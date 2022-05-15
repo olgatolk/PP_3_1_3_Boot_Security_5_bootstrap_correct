@@ -1,64 +1,76 @@
 package applicSpring.models;
 
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.Collection;
 
+@Data
 @Entity
-@Table(name = "users")
-public class User implements Serializable {
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "age")
     private int age;
 
-    public User() {
-    }
+    @Column(name = "email")
+    private String email;
 
-    public User(int id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
+    @Column(name = "password")
+    private String password;
 
-    public User(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_email", referencedColumnName = "email"),
+            inverseJoinColumns = @JoinColumn(name = "role_name", referencedColumnName = "name"))
+   // @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+   // @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+   // @Enumerated(EnumType.STRING)
+    //@JoinTable(name = "roles")
+    private Collection<Role> roles;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

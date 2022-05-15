@@ -1,14 +1,17 @@
 package applicSpring.controllers;
 
+
 import applicSpring.models.User;
 import applicSpring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping()
+@RequestMapping("/admin")
+//@Secured
 public class UsersController {
 
     private UserService userService;
@@ -17,9 +20,9 @@ public class UsersController {
     public UsersController(UserService userService) {
         this.userService = userService;
     }
-    @GetMapping("/")
+    @GetMapping()
     public String index(Model model){
-         model.addAttribute("users", userService.getAll());
+        model.addAttribute("users", userService.getAll());
         return "index";
     }
 
@@ -32,7 +35,7 @@ public class UsersController {
     @PostMapping
     public String create (@ModelAttribute("user") User user) {
         userService.save(user);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     @GetMapping("/edit/{id}")
@@ -44,12 +47,13 @@ public class UsersController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
         userService.update(id, user);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     @GetMapping ("delete/{id}")
     public String delete(@PathVariable("id") int id) {
         userService.delete(id);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 }
+
