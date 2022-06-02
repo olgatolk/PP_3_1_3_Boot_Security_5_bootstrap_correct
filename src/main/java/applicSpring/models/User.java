@@ -5,15 +5,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -30,17 +32,41 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(
                     name = "user_email", referencedColumnName = "email"),
             inverseJoinColumns = @JoinColumn(name = "role_name", referencedColumnName = "name"))
-   // @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-   // @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-   // @Enumerated(EnumType.STRING)
-    //@JoinTable(name = "roles")
     private Collection<Role> roles;
+
+    public User() {
+    }
+
+    public User(String firstName, String lastName, int age, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+    }
+
+    public User(String firstName, String lastName, int age, String email, String password, Collection<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(Long id, String firstName, String lastName, int age, String email, String password) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -75,5 +101,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String rolesToString() {
+
+        return roles.stream().map(Role::toString).collect(Collectors.joining(" "));
     }
 }

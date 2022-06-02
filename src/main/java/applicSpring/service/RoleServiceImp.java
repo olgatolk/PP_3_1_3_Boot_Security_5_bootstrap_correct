@@ -1,30 +1,30 @@
 package applicSpring.service;
 
-import applicSpring.dao.RoleDao;
+import applicSpring.dao.RoleRepository;
 import applicSpring.models.Role;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Data;
 import org.springframework.stereotype.Service;
+import java.util.HashSet;
+import java.util.Set;
 
-import java.util.List;
-
+@Data
 @Service
 public class RoleServiceImp implements RoleService{
 
-    private RoleDao roleDao;
-    @Autowired
-    public RoleServiceImp(RoleDao roleDao) {
-        this.roleDao = roleDao;
+    private RoleRepository roleRepository;
+
+    public RoleServiceImp(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
+//    @Override
+ /*   public void addRole(Role role) {
+        roleRepository.save(role);
+    }*/
     @Override
-    public List<Role> getAllRoles() {
-        return roleDao.getAllRoles();
+    public Set<Role> getAllRoles() {
+        Set<Role> roles = new HashSet<>();
+        roles.addAll(roleRepository.findAll());
+        return roles;
     }
-
-    @Override
-    public Role findRoleByName(String name) {
-        return roleDao.findRoleByName(name);
-    }
-
-
 }

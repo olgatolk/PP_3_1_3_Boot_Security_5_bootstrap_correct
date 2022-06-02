@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="PP_3_1_3_Boot_Security_5_bootstrap" />
+        <module name="PP_3_1_2_Boot_Security_5" />
         <module name="PP_3_1_1_spring_boot_CRUD" />
         <module name="PP_3_1_2_Boot_Security_3" />
         <module name="PP_2_3_1_spring_CRUD" />
@@ -18,6 +19,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="PP_3_1_1_spring_boot_CRUD" options="-parameters" />
       <module name="PP_3_1_2_Boot_Security_3" options="-parameters" />
+      <module name="PP_3_1_2_Boot_Security_5" options="-parameters" />
       <module name="PP_3_1_3_Boot_Security_5_bootstrap" options="-parameters" />
     </option>
   </component>
