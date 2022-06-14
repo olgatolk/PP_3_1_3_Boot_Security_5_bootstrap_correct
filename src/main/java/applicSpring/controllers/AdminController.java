@@ -4,6 +4,7 @@ import applicSpring.models.User;
 import applicSpring.service.RoleService;
 import applicSpring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,9 @@ public class AdminController {
     @GetMapping()
     public String index(Model model){
         model.addAttribute("users", userService.getAll());
-
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", principal);
+        model.addAttribute("listRoles", roleService.getAllRoles());
         return "index";
     }
 
@@ -54,9 +57,15 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("delete/{email}")
+   /* @GetMapping("delete/{email}")
     public String delete(@PathVariable("email") String email) {
         userService.deleteUserByEmail(email);
+        return "redirect:/admin";
+    }*/
+
+    @GetMapping("delete/{id}")
+    public String delete(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
         return "redirect:/admin";
     }
 }
