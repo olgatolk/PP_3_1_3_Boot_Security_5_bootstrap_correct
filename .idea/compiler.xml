@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="PP_3_1_3_Boot_Security_5_bootstrap_correct" />
         <module name="PP_3_1_3_Boot_Security_5_bootstrap" />
         <module name="PP_3_1_2_Boot_Security_5" />
         <module name="PP_3_1_1_spring_boot_CRUD" />
@@ -21,6 +22,7 @@
       <module name="PP_3_1_2_Boot_Security_3" options="-parameters" />
       <module name="PP_3_1_2_Boot_Security_5" options="-parameters" />
       <module name="PP_3_1_3_Boot_Security_5_bootstrap" options="-parameters" />
+      <module name="PP_3_1_3_Boot_Security_5_bootstrap_correct" options="-parameters" />
     </option>
   </component>
 </project>

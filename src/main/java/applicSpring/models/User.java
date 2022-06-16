@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -24,9 +26,11 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(name = "age")
+    @Min(value = 0)
     private int age;
 
     @Column(name = "email")
+    @Email
     private String email;
 
     @Column(name = "password")
